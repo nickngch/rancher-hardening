@@ -13,5 +13,6 @@
 
 - sudo bash ./worker.sh 2.3 #for worker node
 
-# Modified from https://github.com/neuvector/kubernetes-cis-benchmark
-# rancher-hardening
+# Modified from 
+- https://github.com/neuvector/kubernetes-cis-benchmark
+

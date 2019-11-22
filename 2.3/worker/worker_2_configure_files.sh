@@ -85,5 +85,5 @@ na "$check_2_2_9"
 na "RKE doesn’t require or maintain a configuration file for kubelet. All configuration is passed in as arguments at container run time."
 
 check_2_2_10="2.2.10  - Ensure that the proxy file permissions are set to 644 or more restrictive"
-na "check_2_2_10"
+na "$check_2_2_10"
 na "RKE doesn’t require or maintain a configuration file for kubelet. All configuration is passed in as arguments at container run time."

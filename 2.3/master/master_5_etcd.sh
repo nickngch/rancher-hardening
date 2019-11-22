@@ -5,7 +5,7 @@ cf=$(docker inspect etcd | jq -e '.[0].Args[] | match("--cert-file=.*").string')
 kf=$(docker inspect etcd | jq -e '.[0].Args[] | match("--key-file=.*").string')
 if [ -z "$cf" ]; then
     warn "$check_1_5_1"
-elif[ -z "$kf" ]; then
+elif [ -z "$kf" ]; then
     warn "$check_1_5_1"
 else
     pass "$check_1_5_1"
@@ -32,7 +32,7 @@ pcf=$(docker inspect etcd | jq -e '.[0].Args[] | match("--peer-cert-file=.*").st
 pkf=$(docker inspect etcd | jq -e '.[0].Args[] | match("--peer-key-file=.*").string')
 if [ -z "$pcf" ]; then
     warn "$check_1_5_4"
-elif[ -z "$pkf" ]; then
+elif [ -z "$pkf" ]; then
     warn "$check_1_5_4"
 else
     pass "$check_1_5_4"

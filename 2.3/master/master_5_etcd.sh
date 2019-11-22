@@ -10,7 +10,7 @@ if [ -z "$cf" ]; then
       pass "$check_1_5_1"
     fi
 else
-    pass "$check_1_5_1"
+    warn "$check_1_5_1"
 fi
 
 check_1_5_2="1.5.2  - Ensure that the --client-cert-auth argument is set to true (Scored)"
@@ -32,11 +32,11 @@ fi
 check_1_5_4="1.5.4  - Ensure that the --peer-cert-file and --peer-key-file arguments are set as appropriate (Scored)"
 pcf=$(docker inspect etcd | jq -e '.[0].Args[] | match("--peer-cert-file=.*").string')
 pkf=$(docker inspect etcd | jq -e '.[0].Args[] | match("--peer-key-file=.*").string')
-if [ "$pcf" = --peer-cert-file=/etc/kubernetes/ssl/* ]; then
-    if [ "$pkf" = --peer-key-file=/etc/kubernetes/ssl/* ]; then
-        pass "$check_1_5_4"
-    else
+if [ -z "$pcf" ]; then
+    if [ -z "$pkf" ]; then
         warn "$check_1_5_4"
+    else
+        pass "$check_1_5_4"
     fi
 else
     warn "$check_1_5_4"

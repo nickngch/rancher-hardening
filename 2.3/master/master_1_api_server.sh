@@ -270,28 +270,55 @@ gg=$(docker inspect kube-apiserver | jq -e '.[0].Args[] | match("--tls-cipher-su
 hh=$(docker inspect kube-apiserver | jq -e '.[0].Args[] | match("--tls-cipher-suites=.*(TLS_RSA_WITH_AES_128_GCM_SHA256).*").captures[].string')
 ii=$(docker inspect kube-apiserver | jq -e '.[0].Args[] | match("--tls-cipher-suites=.*(CBC).*").captures[].string')
 jj=$(docker inspect kube-apiserver | jq -e '.[0].Args[] | match("--tls-cipher-suites=.*(RC4).*").captures[].string')
-if [ "$aa" = \"TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256\" ]; then
-    if [ "$bb" = \"TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256\" ]; then
-        if [ "$cc" = \"TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305\" ]; then
-            if [ "$dd" = \"TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384\" ]; then
-                if [ "$ee" = \"TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305\" ]; then
-                    if [ "$ff" = \"TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384\" ]; then
-                        if [ "$gg" = \"TLS_RSA_WITH_AES_256_GCM_SHA384\" ]; then
-                            if [ "$hh" = \"TLS_RSA_WITH_AES_128_GCM_SHA256\" ]; then
-                                if [ -z "$ii" ]; then
-                                    if [ -z "$jj" ]; then
-                                        pass "$check_1_1_30"
-                                    else
-                                        warn "$check_1_1_30"
-                                    fi
-                                fi
-                            fi
-                        fi
-                    fi
-                fi
-            fi
-        fi
-    fi
+count_check=0
+if [ "$aa" != "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256" ]; then
+        count_check=$(( count_check + 1 ))
+        warn "$check_2_1_14"
+fi
+if [ "$bb" != "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256" ]; then
+        count_check=$(( count_check + 1 ))
+        warn "$check_2_1_14"
+fi
+if [ "$cc" = "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305" ]; then
+        count_check=$(( count_check + 1 ))
+        warn "$check_2_1_14"
+fi
+if [ "$dd" = "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384" ]; then
+        count_check=$(( count_check + 1 ))
+        warn "$check_2_1_14"
+fi
+if [ "$ee" = "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305" ]; then
+        count_check=$(( count_check + 1 ))
+        warn "$check_2_1_14"
+fi
+if [ "$ff" = "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384" ]; then
+        count_check=$(( count_check + 1 ))
+        warn "$check_2_1_14"
+fi
+if [ "$gg" = "TLS_RSA_WITH_AES_256_GCM_SHA384" ]; then
+        count_check=$(( count_check + 1 ))
+        warn "$check_2_1_14"
+fi
+if [ "$hh" = "TLS_RSA_WITH_AES_128_GCM_SHA256" ]; then
+        count_check=$(( count_check + 1 ))
+        warn "$check_2_1_14"
+fi
+if [ -z "$ii" ]; then
+        sleep 1
+else
+        count_check=$(( count_check + 1 ))
+        warn "$check_2_1_14"
+fi
+if [ -z "$jj" ]; then
+        sleep 1
+else
+        count_check=$(( count_check + 1 ))
+        warn "$check_2_1_14"
+fi
+if [ "$count_check" -ge 1 ];then
+        warn "$check_2_1_14"
+else
+        pass "$check_2_1_14"
 fi
 
 check_1_1_31="1.1.31  - Ensure that the --etcd-cafile argument is set as appropriate"

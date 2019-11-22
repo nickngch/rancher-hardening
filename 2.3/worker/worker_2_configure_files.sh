@@ -1,9 +1,9 @@
 info "2.2 - Configuration Files"
 
 check_2_2_1="2.2.1  - Ensure that the config file permissions are set to 644 or more restrictive"
-file=(kubecfg-kube-node.yaml)
+file=(/etc/kubernetes/ssl/kubecfg-kube-node.yaml)
 if [ -f "$file" ]; then
-  if [ "$(stat -c %a /etc/kubernetes/ssl/$file)" -eq 644 -o "$(stat -c %a /etc/kubernetes/ssl/$file)" -eq 600 -o "$(stat -c %a /etc/kubernetes/ssl/$file)" -eq 400 ]; then
+  if [ "$(stat -c %a $file)" -eq 644 -o "$(stat -c %a $file)" -eq 600 -o "$(stat -c %a $file)" -eq 400 ]; then
     pass "$check_2_2_1"
   else
     warn "$check_2_2_1"

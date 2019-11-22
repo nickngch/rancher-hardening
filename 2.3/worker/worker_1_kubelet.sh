@@ -36,12 +36,12 @@ else
 fi
 
 check_2_1_5="2.1.5  - Ensure that the --streaming-connection-idle-timeout argument is not set to 0"
-timeout=$(docker inspect kubelet | jq -e '.[0].Args[] | match("--streaming-connection-idle-timeout=.*").string')
-if [ $timeout = \"--streaming-connection-idle-timeout=1800s\" ]; then
-  pass "$check_2_1_5"
-else
+timeout=$(docker inspect kubelet | jq -e '.[0].Args[] | match("--streaming-connection-idle-timeout=.*").string' | cut -d "\"" -f2 | cut -d "=" -f2)
+if [ $timeout = 0m -o  $timeout = 0s -o $timeout = 0 ]; then
   warn "$check_2_1_5"
   warn "       * streaming-connection-idle-timeout: $timeout"
+else
+  pass "$check_2_1_5"
 fi
 
 check_2_1_6="2.1.6  - Ensure that the --protect-kernel-defaults argument is set to true"
@@ -62,10 +62,11 @@ fi
 
 check_2_1_8="2.1.8  - Ensure that the --hostname-override argument is not set"
 hostname=$(docker inspect kubelet | jq -e '.[0].Args[] | match("--hostname-override=.*").string')
-if [ $hostname = --hostname-override=* ]; then
+if [ -z "$hostname" ]; then
     pass "$check_2_1_8"
 else
     warn "$check_2_1_8"
+    warn "This is used by most cloud providers. Not setting this is not practical in most cases."
 fi
 
 check_2_1_9="2.1.9  - Ensure that the --event-qps argument is set to 0"

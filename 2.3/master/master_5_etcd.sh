@@ -5,12 +5,12 @@ cf=$(docker inspect etcd | jq -e '.[0].Args[] | match("--cert-file=.*").string')
 kf=$(docker inspect etcd | jq -e '.[0].Args[] | match("--key-file=.*").string')
 if [ -z "$cf" ]; then
     if [ -z "$kf" ]; then
-        pass "$check_1_5_1"
+        warn "$check_1_5_1"
     else
-      warn "$check_1_5_1"
+      pass "$check_1_5_1"
     fi
 else
-    warn "$check_1_5_1"
+    pass "$check_1_5_1"
 fi
 
 check_1_5_2="1.5.2  - Ensure that the --client-cert-auth argument is set to true (Scored)"

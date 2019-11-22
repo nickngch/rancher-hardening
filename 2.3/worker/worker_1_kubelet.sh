@@ -11,10 +11,10 @@ fi
 
 check_2_1_2="2.1.2  - Ensure that the --authorization-mode argument is not set to AlwaysAllow"
 authorization=$(docker inspect kubelet | jq -e '.[0].Args[] | match("--authorization-mode=Webhook").string' | cut -d "=" -f2 | grep AlwaysAllow)
-if [ -z $authorization" ]; then
-  warn "$check_2_1_2"
-else
+if [ -z $authorization ]; then
   pass "$check_2_1_2"
+else
+  warn "$check_2_1_2"
 fi
 
 check_2_1_3="2.1.3  - Ensure that the --client-ca-file argument is set as appropriate"

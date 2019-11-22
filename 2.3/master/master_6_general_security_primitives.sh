@@ -1,5 +1,12 @@
 info "1.6 - General Security Primitives"
 
+check=$(kubectl get node | grep ^NAME | cut -d " " -f 1 >/dev/null )
+#echo $check
+if [ "$check" != "NAME" ]; then
+        warn "kubectl cannot connect to the cluster"
+        exit 1
+fi
+
 # Make the loop separator be a new-line in POSIX compliant fashion
 set -f; IFS=$'
 '

@@ -273,62 +273,52 @@ jj=$(docker inspect kube-apiserver | jq -e '.[0].Args[] | match("--tls-cipher-su
 count_check=0
 if [ "$aa" != "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256" ]; then
         count_check=$(( count_check + 1 ))
-        warn "$check_2_1_14"
 	warn "$aa not found"
 fi
 if [ "$bb" != "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256" ]; then
         count_check=$(( count_check + 1 ))
-        warn "$check_2_1_14"
 	warn "$bb not found"
 fi
 if [ "$cc" = "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305" ]; then
         count_check=$(( count_check + 1 ))
-        warn "$check_2_1_14"
 	warn "$cc not found"
 fi
 if [ "$dd" = "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384" ]; then
         count_check=$(( count_check + 1 ))
-        warn "$check_2_1_14"
 	warn "$dd not found"
 fi
 if [ "$ee" = "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305" ]; then
         count_check=$(( count_check + 1 ))
-        warn "$check_2_1_14"
 	warn "$ee not found"
 fi
 if [ "$ff" = "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384" ]; then
         count_check=$(( count_check + 1 ))
-        warn "$check_2_1_14"
 	warn "$ff not found"
 fi
 if [ "$gg" = "TLS_RSA_WITH_AES_256_GCM_SHA384" ]; then
         count_check=$(( count_check + 1 ))
-        warn "$check_2_1_14"
 	warn "gg not found"
 fi
 if [ "$hh" = "TLS_RSA_WITH_AES_128_GCM_SHA256" ]; then
         count_check=$(( count_check + 1 ))
-        warn "$check_2_1_14"
 	warn "$hh not found"
 fi
 if [ -z "$ii" ]; then
         sleep 1
 else
         count_check=$(( count_check + 1 ))
-        warn "$check_2_1_14"
 	warn "$ii is allowed"
 fi
 if [ -z "$jj" ]; then
         sleep 1
 else
         count_check=$(( count_check + 1 ))
-        warn "$check_2_1_14"
 	warn "$jj is allowed"
 fi
 if [ "$count_check" -ge 1 ];then
-        warn "$check_2_1_14"
+        warn "$check_1_1_30"
 else
-        pass "$check_2_1_14"
+        pass "$check_1_1_30"
 fi
 
 check_1_1_31="1.1.31  - Ensure that the --etcd-cafile argument is set as appropriate"

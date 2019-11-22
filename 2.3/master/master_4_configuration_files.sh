@@ -67,12 +67,12 @@ na "$check_1_4_14"
 na "    RKE does not store the default kubectl config credentials file on the nodes. It presents credentials to the user when rke is first run, and only on the device where the user ran the command. Rancher Labs recommends that this kube_config_cluster.yml file be kept in secure store."
 
 check_1_4_15="1.4.15  - Ensure that the scheduler.conf file permissions are set to 644 or more restrictive"
-file=$(stat -c %a /etc/kubernetes/ssl/kubecfg-kube-scheduler.yaml)
-  if [ $file -eq 644 ]; then
+file=(/etc/kubernetes/ssl/kubecfg-kube-scheduler.yaml)
+  if [ "$(stat -c %a $file)" -eq 644 -o "$(stat -c %a $file)" -eq 640 -o "$(stat -c %a $file)" -eq 600 ]; then  
     pass "$check_1_4_15"
   else
     warn "$check_1_4_15"
-    warn "     * Wrong permissions for $file:$file"
+    warn "     * Wrong permissions"
   fi
 
 check_1_4_16="1.4.16  - Ensure that the scheduler.conf file ownership is set to root:root"
@@ -85,8 +85,8 @@ file1=$(stat -c %U:%G /etc/kubernetes/ssl/kubecfg-kube-scheduler.yaml)
   fi
 
 check_1_4_17="1.4.17  - Ensure that the controller-manager.conf file permissions are set to 644 or more restrictive"
-file2=$(stat -c %a /etc/kubernetes/ssl/kubecfg-kube-controller-manager.yaml)
-  if [ $file2 -eq 644 ]; then
+file2=(/etc/kubernetes/ssl/kubecfg-kube-controller-manager.yaml)
+if [ "$(stat -c %a $file2)" -eq 644 -o "$(stat -c %a $file2)" -eq 640 -o "$(stat -c %a $file2)" -eq 600 ]; then
     pass "$check_1_4_17"
   else
     warn "$check_1_4_17"
@@ -104,7 +104,7 @@ file3=$(stat -c %U:%G /etc/kubernetes/ssl/kubecfg-kube-controller-manager.yaml)
 
 check_1_4_19="1.4.19  - Ensure that the Kubernetes PKI directory and file ownership is set to root:root"
 pki=$(stat -c %U:%G /etc/kubernetes/ssl)
-if [ "$pki" = \"root:root\" ]; then
+if [ "$pki" = "root:root" ]; then
   pass "$check_1_4_19"
 else
   warn "$check_1_4_19"

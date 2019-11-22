@@ -86,7 +86,7 @@ file1=$(stat -c %U:%G /etc/kubernetes/ssl/kubecfg-kube-scheduler.yaml)
 
 check_1_4_17="1.4.17  - Ensure that the controller-manager.conf file permissions are set to 644 or more restrictive"
 file2=$(stat -c %a /etc/kubernetes/ssl/kubecfg-kube-controller-manager.yaml)
-  if [ $file2 eq 644 ]; then
+  if [ $file2 -eq 644 ]; then
     pass "$check_1_4_17"
   else
     warn "$check_1_4_17"

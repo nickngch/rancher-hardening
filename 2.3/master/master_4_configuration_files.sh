@@ -68,7 +68,7 @@ na "    RKE does not store the default kubectl config credentials file on the no
 
 check_1_4_15="1.4.15  - Ensure that the scheduler.conf file permissions are set to 644 or more restrictive"
 file=$(stat -c %a /etc/kubernetes/ssl/kubecfg-kube-scheduler.yaml)
-  if [ $file eq 644 ]; then
+  if [ $file -eq 644 ]; then
     pass "$check_1_4_15"
   else
     warn "$check_1_4_15"

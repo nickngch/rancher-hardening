@@ -4,8 +4,7 @@ check=$(kubectl get node | grep ^NAME | cut -d " " -f 1 >/dev/null )
 #echo $check
 if [ "$check" != "NAME" ]; then
         warn "kubectl cannot connect to the cluster"
-        exit 1
-fi
+else
 
 # Make the loop separator be a new-line in POSIX compliant fashion
 set -f; IFS=$'
@@ -43,3 +42,4 @@ info "Rancher can (optionally) automatically create Network Policies to isolate 
 check_1_6_8="1.6.8 - Place compensating controls in the form of PSP and RBAC for privileged containers usage (Not Scored)"
 info $check_1_6_8
 info "Section 1.7 of this guide shows how to add and configure a default “restricted” PSP based on controls."
+fi

@@ -5,7 +5,7 @@ check=$(kubectl get node | grep ^NAME | cut -d " " -f 1 >/dev/null )
 if [ "$check" != "NAME" ]; then 
 	warn "kubectl cannot connect to the cluster"
 	exit 1
-fi
+else
 
 
 # Make the loop separator be a new-line in POSIX compliant fashion
@@ -66,4 +66,5 @@ if [ "psp7" = \[NET_RAW\] ]; then
 	pass $check_1_7_7
 else
 	warn $check_1_7_7
+fi
 fi

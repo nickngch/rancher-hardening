@@ -10,8 +10,8 @@ else
 fi
 
 check_2_1_2="2.1.2  - Ensure that the --authorization-mode argument is not set to AlwaysAllow"
-authorization=$(docker inspect kubelet | jq -e '.[0].Args[] | match("--authorization-mode=Webhook").string')
-if [ $authorization = \"--authorization-mode=Webhook\" ]; then
+authorization=$(docker inspect kubelet | jq -e '.[0].Args[] | match("--authorization-mode=Webhook").string' | cut -d "=" -f2 | grep AlwaysAllow)
+if [ -z $authorization" ]; then
   warn "$check_2_1_2"
 else
   pass "$check_2_1_2"

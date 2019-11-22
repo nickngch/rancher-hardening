@@ -128,7 +128,6 @@ else
         pass "$check_1_1_16"
     else
         warn "$check_1_1_16"
-        warn "        * $alm"
     fi
 fi
 
@@ -357,7 +356,7 @@ check_1_1_35="1.1.35  - Ensure that the encryption provider is set to aescbc"
 epc=$(docker inspect kube-apiserver | jq -e '.[0].Args[] | match("--encryption-provider-config=.*").string')
 if [ -z "$epc" ]; then
 	warn "$check_1_1_35"
-	warn "encryption is not configured"
+	warn "		encryption is not configured"
 else
 	ep=$(grep -A 1 providers: /opt/kubernetes/encryption.yaml | grep aescbc)
 	if [ "$ep" = \"- aescbc:\" ]; then

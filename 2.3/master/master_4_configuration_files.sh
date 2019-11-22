@@ -68,59 +68,39 @@ na "    RKE does not store the default kubectl config credentials file on the no
 
 check_1_4_15="1.4.15  - Ensure that the scheduler.conf file permissions are set to 644 or more restrictive"
 file=$(stat -c %a /etc/kubernetes/ssl/kubecfg-kube-scheduler.yaml)
-if [ -f $file ]; then
   if [ $file eq 644 ]; then
     pass "$check_1_4_15"
   else
     warn "$check_1_4_15"
     warn "     * Wrong permissions for $file:$file"
   fi
-else
-  warn "$check_1_4_15"
-  warn "     * File not found"
-fi
 
 check_1_4_16="1.4.16  - Ensure that the scheduler.conf file ownership is set to root:root"
 file1=$(stat -c %U:%G /etc/kubernetes/ssl/kubecfg-kube-scheduler.yaml)
-if [ -f $file1 ]; then
   if [ "$file1" = "root:root"  ]; then
     pass "$check_1_4_16"
   else
     warn "$check_1_4_16"
     warn "     * Wrong ownership for $file1"
   fi
-else
-  warn "$check_1_4_16"
-  warn "     * File not found"
-fi
 
 check_1_4_17="1.4.17  - Ensure that the controller-manager.conf file permissions are set to 644 or more restrictive"
 file2=$(stat -c %a /etc/kubernetes/ssl/kubecfg-kube-controller-manager.yaml)
-if [ -f $file2 ]; then
   if [ $file2 eq 644 ]; then
     pass "$check_1_4_17"
   else
     warn "$check_1_4_17"
     warn "     * Wrong permissions"
   fi
-else
-  warn "$check_1_4_17"
-  warn "     * File not found"
-fi
 
 check_1_4_18="1.4.18  - Ensure that the controller-manager.conf file ownership is set to root:root"
 file3=$(stat -c %U:%G /etc/kubernetes/ssl/kubecfg-kube-controller-manager.yaml)
-if [ -f $fil3 ]; then
   if [ $file3 = root:root ]; then
     pass "$check_1_4_18"
   else
     warn "$check_1_4_18"
     warn "     * Wrong ownership"
   fi
-else
-  warn "$check_1_4_18"
-  warn "     * File not found"
-fi
 
 check_1_4_19="1.4.19  - Ensure that the Kubernetes PKI directory and file ownership is set to root:root"
 pki=$(stat -c %U:%G /etc/kubernetes/ssl)

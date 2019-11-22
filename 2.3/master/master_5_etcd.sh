@@ -3,8 +3,8 @@ info "1.5 - etcd"
 check_1_5_1="1.5.1  - Ensure that the --cert-file and --key-file arguments are set as appropriate (Scored)"
 cf=$(docker inspect etcd | jq -e '.[0].Args[] | match("--cert-file=.*").string')
 kf=$(docker inspect etcd | jq -e '.[0].Args[] | match("--key-file=.*").string')
-if [ "$cf" = --cert-file=/etc/kubernetes/ssl/kube-etcd-*.pem ]; then
-    if [ "$kf" = --key-file=/etc/kubernetes/ssl/kube-etcd-*-key.pem ]; then
+if [ -z "$cf" ]; then
+    if [ -z "$kf" ]; then
         pass "$check_1_5_1"
     else
       warn "$check_1_5_1"

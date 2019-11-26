@@ -51,7 +51,7 @@ fi
 
 check_1_4_12="1.4.12  - Ensure that the etcd data directory ownership is set to etcd:etcd"
 etcd2=$(stat -c %U:%G /var/lib/etcd)
-if [ "$etcd2" = \"etcd:etcd\" ]; then
+if [ "$etcd2" = "etcd:etcd" ]; then
   pass "$check_1_4_12"
 else
   warn "$check_1_4_12"

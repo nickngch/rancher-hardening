@@ -112,7 +112,7 @@ fi
 
 check_1_1_15="1.1.15  - Ensure that the --audit-log-path argument is set as appropriate"
 alp=$(docker inspect kube-apiserver | jq -e '.[0].Args[] | match("--audit-log-path=/var/log/kube-audit/audit-log.json").string')
-if [ "alp" = \"--audit-log-log=/var/log/kube-audit/audit-log.json\" ]; then
+if [ "alp" = \"--audit-log-path=/var/log/kube-audit/audit-log.json\" ]; then
     pass "$check_1_1_15"
 else
     warn "$check_1_1_15"
@@ -147,7 +147,7 @@ fi
 
 check_1_1_18="1.1.18  - Ensure that the --audit-log-maxsize argument is set to 100 or as appropriate"
 almmm=$(docker inspect kube-apiserver | jq -e '.[0].Args[] | match("--audit-log-maxsize=\\d+").string')
-if [ -z "$almmm"]; then
+if [ -z "$almmm" ]; then
     warn "$check_1_1_18"
 else
     if [ "almmm" = \"--audit-log-maxsize=100\" ]; then
@@ -270,35 +270,35 @@ hh=$(docker inspect kube-apiserver | jq -e '.[0].Args[] | match("--tls-cipher-su
 ii=$(docker inspect kube-apiserver | jq -e '.[0].Args[] | match("--tls-cipher-suites=.*(CBC).*").captures[].string')
 jj=$(docker inspect kube-apiserver | jq -e '.[0].Args[] | match("--tls-cipher-suites=.*(RC4).*").captures[].string')
 count_check=0
-if [ "$aa" != "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256" ]; then
+if [ "$aa" != \"TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256\" ]; then
         count_check=$(( count_check + 1 ))
 	warn "$aa not found"
 fi
-if [ "$bb" != "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256" ]; then
+if [ "$bb" != \"TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256\" ]; then
         count_check=$(( count_check + 1 ))
 	warn "$bb not found"
 fi
-if [ "$cc" = "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305" ]; then
+if [ "$cc" != \"TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305\" ]; then
         count_check=$(( count_check + 1 ))
 	warn "$cc not found"
 fi
-if [ "$dd" = "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384" ]; then
+if [ "$dd" != \"TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384\" ]; then
         count_check=$(( count_check + 1 ))
 	warn "$dd not found"
 fi
-if [ "$ee" = "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305" ]; then
+if [ "$ee" != \"TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305\" ]; then
         count_check=$(( count_check + 1 ))
 	warn "$ee not found"
 fi
-if [ "$ff" = "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384" ]; then
+if [ "$ff" != \"TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384\" ]; then
         count_check=$(( count_check + 1 ))
 	warn "$ff not found"
 fi
-if [ "$gg" = "TLS_RSA_WITH_AES_256_GCM_SHA384" ]; then
+if [ "$gg" != \"TLS_RSA_WITH_AES_256_GCM_SHA384\" ]; then
         count_check=$(( count_check + 1 ))
 	warn "gg not found"
 fi
-if [ "$hh" = "TLS_RSA_WITH_AES_128_GCM_SHA256" ]; then
+if [ "$hh" != \"TLS_RSA_WITH_AES_128_GCM_SHA256\" ]; then
         count_check=$(( count_check + 1 ))
 	warn "$hh not found"
 fi
@@ -346,7 +346,7 @@ fi
 
 check_1_1_34="1.1.34  - Ensure that the --experimental-encryption-provider-config argument is set as appropriate"
 epc=$(docker inspect kube-apiserver | jq -e '.[0].Args[] | match("--encryption-provider-config=.*").string')
-if [ "$epc" = \"encryption-provider-config=/opt/kubernetes/encryption.yaml\" ]; then
+if [ "$epc" = \"--encryption-provider-config=/opt/kubernetes/encryption.yaml\" ]; then
     pass "$check_1_1_34"
 else
     warn "$check_1_1_34"
@@ -359,10 +359,10 @@ if [ -z "$epc" ]; then
 	warn "		encryption is not configured"
 else
 	ep=$(grep -A 1 providers: /opt/kubernetes/encryption.yaml | grep aescbc)
-	if [ "$ep" = \"- aescbc:\" ]; then
-    		pass "$check_1_1_35"
-	else
+	if [ -z "$ep" ]; then
     		warn "$check_1_1_35"
+	else
+    		pass "$check_1_1_35"
 	fi
 fi
 

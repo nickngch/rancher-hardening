@@ -132,35 +132,35 @@ hh=$(docker inspect kube-apiserver | jq -e '.[0].Args[] | match("--tls-cipher-su
 ii=$(docker inspect kube-apiserver | jq -e '.[0].Args[] | match("--tls-cipher-suites=.*(CBC).*").captures[].string')
 jj=$(docker inspect kube-apiserver | jq -e '.[0].Args[] | match("--tls-cipher-suites=.*(RC4).*").captures[].string')
 count_check=0
-if [ "$aa" != "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256" ]; then
+if [ "$aa" != \"TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256\" ]; then
 	count_check=$(( count_check + 1 ))
 	warn "$aa not found"
 fi
-if [ "$bb" != "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256" ]; then
+if [ "$bb" != \"TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256\" ]; then
         count_check=$(( count_check + 1 ))
         warn "$bb not found"
 fi
-if [ "$cc" = "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305" ]; then
+if [ "$cc" != \"TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305\" ]; then
         count_check=$(( count_check + 1 ))
 	warn "$cc not found"
 fi
-if [ "$dd" = "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384" ]; then
+if [ "$dd" != \"TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384\" ]; then
         count_check=$(( count_check + 1 ))
 	warn "$dd not found"
 fi
-if [ "$ee" = "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305" ]; then
+if [ "$ee" != \"TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305\" ]; then
         count_check=$(( count_check + 1 ))
 	warn "$ee not found"
 fi
-if [ "$ff" = "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384" ]; then
+if [ "$ff" != \"TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384\" ]; then
         count_check=$(( count_check + 1 ))
 	warn "$ff not found"
 fi
-if [ "$gg" = "TLS_RSA_WITH_AES_256_GCM_SHA384" ]; then
+if [ "$gg" != \"TLS_RSA_WITH_AES_256_GCM_SHA384\" ]; then
         count_check=$(( count_check + 1 ))
 	warn "$gg not found"
 fi
-if [ "$hh" = "TLS_RSA_WITH_AES_128_GCM_SHA256" ]; then
+if [ "$hh" != \"TLS_RSA_WITH_AES_128_GCM_SHA256\" ]; then
         count_check=$(( count_check + 1 ))
 	warn "$hh not found"
 fi

@@ -1,17 +1,21 @@
-# Rancher Hardening Benchmark
+# Rancher Hardening Benchmark Scanning Script
 
-# rancher-harden
+## rancher-harden
+This script is to performance hardening benchmark scanning against Rancher v2.3.x  (k8s v1.15) cluster based on https://rancher.com/docs/rancher/v2.x/en/security/hardening-2.3/
 
-# Pre-requisites:
+## Pre-requisites:
 - jq
 - grep
 - awk
 - kubectl
 
-# Usage
-- sudo bash ./master.sh 2.3 #for master node
+## Usage
+1. git clone https://github.com/nickngch/rancher-hardening.git
 
-- sudo bash ./worker.sh 2.3 #for worker node
+### For Master Node
+- sudo bash ./master.sh 2.3
 
-# Modified from https://github.com/neuvector/kubernetes-cis-benchmark
-# rancher-hardening
+### For Worker Node
+- sudo bash ./worker.sh 2.3
+
+#### Modified from https://github.com/neuvector/kubernetes-cis-benchmark

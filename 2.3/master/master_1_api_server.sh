@@ -66,7 +66,7 @@ fi
 
 check_1_1_9="1.1.9  - Ensure that the --repair-malformed-updates argument is set to false"
 na "$check_1_1_9"
-na "		This deprecated flag was removed in 1.14, so it cannot be set."
+na "1.1.9 -		This deprecated flag was removed in 1.14, so it cannot be set."
 
 check_1_1_10="1.1.10  - Ensure that the admission control policy is not set to AlwaysAdmit"
 alwaysadmit=$(docker inspect kube-apiserver | jq -e '.[0].Args[] | match("--enable-admission-plugins=.*(AlwaysAdmit).*").captures[].string')
@@ -96,10 +96,10 @@ check_1_1_13="1.1.13  - Ensure that the admission control policy is set to Secur
 scd=$(docker inspect kube-apiserver | jq -e '.[0].Args[] | match("--enable-admission-plugins=.*(SecurityContextDeny).*").captures[].string')    
 if [ "$scd" = \"SecurityContextDeny\" ]; then
     pass "$check_1_1_13"
-    pass "		NOTE This SHOULD NOT be set if you are using a PodSecurityPolicy (PSP)."
+    pass "1.1.13 -		NOTE This SHOULD NOT be set if you are using a PodSecurityPolicy (PSP)."
 else
     warn "$check_1_1_13"
-    warn "		NOTE This SHOULD NOT be set if you are using a PodSecurityPolicy (PSP)."
+    warn "1.1.13 -		NOTE This SHOULD NOT be set if you are using a PodSecurityPolicy (PSP)."
 fi
 
 check_1_1_14="1.1.14  - Ensure that the admission control policy is set to NamespaceLifecycle"
@@ -122,7 +122,7 @@ check_1_1_16="1.1.16  - Ensure that the --audit-log-maxage argument is set to 30
 alm=$(docker inspect kube-apiserver | jq -e '.[0].Args[] | match("--audit-log-maxage=\\d+").string')
 if [  -z "alm" ]; then
     warn "$check_1_1_16"
-    warn "      configuration not found"
+    warn "1.1.16 -      configuration not found"
 else
     if [ "$alm" = \"--audit-log-maxage=5\" ]; then
         pass "$check_1_1_16"
@@ -135,13 +135,13 @@ check_1_1_17="1.1.17  - Ensure that the --audit-log-maxbackup argument is set to
 almm=$(docker inspect kube-apiserver | jq -e '.[0].Args[] | match("--audit-log-maxbackup=\\d+").string')
 if [ -z "$almm" ]; then
     warn "$check_1_1_17"
-    warn "      configuration not found"
+    warn "1.1.17 -      configuration not found"
 else
     if [ "$almm" = \"--audit-log-maxbackup=5\" ]; then
         pass "$check_1_1_17"
     else
         warn "$check_1_1_17"
-        warn "        * $almm"
+        warn "1.1.17 -        * $almm"
     fi
 fi
 
@@ -154,7 +154,7 @@ else
         pass "$check_1_1_18"
     else
         warn "$check_1_1_18"
-        warn "        * $almmm"
+        warn "1.1.18 -        * $almmm"
     fi
 fi
 
@@ -164,7 +164,7 @@ if [ "$am" = \"--authorization-mode=Node,RBAC\" ]; then
     pass "$check_1_1_19"
 else
     warn "$check_1_1_19"
-    warn "      * $am"
+    warn "1.1.19 -      * $am"
 fi
 
 check_1_1_20="1.1.20  - Ensure that the --token-auth-file parameter is not set"
@@ -177,7 +177,7 @@ fi
 
 check_1_1_21="1.1.21  - Ensure that the --kubelet-certificate-authority argument is set as appropriate"
 warn "$check_1_1_21"
-warn "Make sure nodes with role:controlplane are on the same local network as your nodes with role:worker. Use network ACLs to restrict connections to the kubelet port (10250/tcp) on worker nodes, only permitting it from controlplane nodes."
+warn "1.1.21 - Make sure nodes with role:controlplane are on the same local network as your nodes with role:worker. Use network ACLs to restrict connections to the kubelet port (10250/tcp) on worker nodes, only permitting it from controlplane nodes."
 
 check_1_1_22="1.1.22  - Ensure that the --kubelet-client-certificate and --kubelet-client-key arguments are set as appropriate"
 kcc=$(docker inspect kube-apiserver | jq -e '.[0].Args[] | match("--kubelet-client-certificate=.*").string')
@@ -272,47 +272,47 @@ jj=$(docker inspect kube-apiserver | jq -e '.[0].Args[] | match("--tls-cipher-su
 count_check=0
 if [ "$aa" != \"TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256\" ]; then
         count_check=$(( count_check + 1 ))
-	warn "$aa not found"
+	warn "1.1.30 - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 not found"
 fi
 if [ "$bb" != \"TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256\" ]; then
         count_check=$(( count_check + 1 ))
-	warn "$bb not found"
+	warn "1.1.30 - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 not found"
 fi
 if [ "$cc" != \"TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305\" ]; then
         count_check=$(( count_check + 1 ))
-	warn "$cc not found"
+	warn "1.1.30 - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305 not found"
 fi
 if [ "$dd" != \"TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384\" ]; then
         count_check=$(( count_check + 1 ))
-	warn "$dd not found"
+	warn "1.1.30 - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 not found"
 fi
 if [ "$ee" != \"TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305\" ]; then
         count_check=$(( count_check + 1 ))
-	warn "$ee not found"
+	warn "1.1.30 - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305 not found"
 fi
 if [ "$ff" != \"TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384\" ]; then
         count_check=$(( count_check + 1 ))
-	warn "$ff not found"
+	warn "1.1.30 - TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 not found"
 fi
 if [ "$gg" != \"TLS_RSA_WITH_AES_256_GCM_SHA384\" ]; then
         count_check=$(( count_check + 1 ))
-	warn "gg not found"
+	warn "1.1.30 - TLS_RSA_WITH_AES_256_GCM_SHA384 not found"
 fi
 if [ "$hh" != \"TLS_RSA_WITH_AES_128_GCM_SHA256\" ]; then
         count_check=$(( count_check + 1 ))
-	warn "$hh not found"
+	warn "1.1.30 - TLS_RSA_WITH_AES_128_GCM_SHA256 not found"
 fi
 if [ -z "$ii" ]; then
         sleep 1
 else
         count_check=$(( count_check + 1 ))
-	warn "$ii is allowed"
+	warn "1.1.30 - $ii is allowed"
 fi
 if [ -z "$jj" ]; then
         sleep 1
 else
         count_check=$(( count_check + 1 ))
-	warn "$jj is allowed"
+	warn "1.1.30 - $jj is allowed"
 fi
 if [ "$count_check" -ge 1 ];then
         warn "$check_1_1_30"

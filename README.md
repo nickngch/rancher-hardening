@@ -11,11 +11,19 @@ This script is to performance hardening benchmark scanning against Rancher v2.3.
 
 ## Usage
 1. git clone https://github.com/nickngch/rancher-hardening.git
-
+2. cd rancher-hardening
+3. Execute the script based on the node's role
 ### For Master Node
-- sudo bash ./master.sh 2.3
+Control plane
+- sudo bash ./master.sh 2.3 cp
+
+Control plan + ETCD
+- sudo bash ./master.sh 2.3 all
 
 ### For Worker Node
-- sudo bash ./worker.sh 2.3
+- sudo ./worker.sh 2.3
+
+### Limitation
+- Section 1.6 and 1.7 in master node require manual verification.
 
 #### Modified from https://github.com/neuvector/kubernetes-cis-benchmark

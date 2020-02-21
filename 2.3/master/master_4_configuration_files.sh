@@ -77,40 +77,62 @@ na "$check_1_4_14"
 na "1.4.14 -    RKE does not store the default kubectl config credentials file on the nodes. It presents credentials to the user when rke is first run, and only on the device where the user ran the command. Rancher Labs recommends that this kube_config_cluster.yml file be kept in secure store."
 
 check_1_4_15="1.4.15  - Ensure that the scheduler.conf file permissions are set to 644 or more restrictive"
-file=(/etc/kubernetes/ssl/kubecfg-kube-scheduler.yaml)
+file=/etc/kubernetes/ssl/kubecfg-kube-scheduler.yaml
+if [ -f $file ]; then
   if [ "$(stat -c %a $file)" -eq 644 -o "$(stat -c %a $file)" -eq 640 -o "$(stat -c %a $file)" -eq 600 ]; then  
     pass "$check_1_4_15"
   else
     warn "$check_1_4_15"
     warn "1.4.15 -     * Wrong permissions"
   fi
+else
+  warn "$check_1_4_15"
+  warn "1.4.15 - kubecfg-kube-scheduler.yaml not found"
+fi
 
 check_1_4_16="1.4.16  - Ensure that the scheduler.conf file ownership is set to root:root"
-file1=$(stat -c %U:%G /etc/kubernetes/ssl/kubecfg-kube-scheduler.yaml)
+file11=/etc/kubernetes/ssl/kubecfg-kube-scheduler.yaml
+if [ -f $file11 ]; then
+  file1=$(stat -c %U:%G /etc/kubernetes/ssl/kubecfg-kube-scheduler.yaml)
   if [ "$file1" = "root:root"  ]; then
     pass "$check_1_4_16"
   else
     warn "$check_1_4_16"
     warn "1.4.16 -     * Wrong ownership for $file1"
   fi
+else
+  warn "$check_1_4_16"
+  warn "1.4.16 - kubecfg-kube-scheduler.yaml not found"
+fi
 
 check_1_4_17="1.4.17  - Ensure that the controller-manager.conf file permissions are set to 644 or more restrictive"
-file2=(/etc/kubernetes/ssl/kubecfg-kube-controller-manager.yaml)
-if [ "$(stat -c %a $file2)" -eq 644 -o "$(stat -c %a $file2)" -eq 640 -o "$(stat -c %a $file2)" -eq 600 ]; then
+file2=/etc/kubernetes/ssl/kubecfg-kube-controller-manager.yaml
+if [ -f $file2 ]; then
+  if [ "$(stat -c %a $file2)" -eq 644 -o "$(stat -c %a $file2)" -eq 640 -o "$(stat -c %a $file2)" -eq 600 ]; then
     pass "$check_1_4_17"
   else
     warn "$check_1_4_17"
     warn "1.4.17 -     * Wrong permissions"
   fi
+else
+  warn "$check_1_4_17"
+  warn "1.4.17 -     kubecfg-kube-controller-manager.yaml not found"
+fi
 
 check_1_4_18="1.4.18  - Ensure that the controller-manager.conf file ownership is set to root:root"
-file3=$(stat -c %U:%G /etc/kubernetes/ssl/kubecfg-kube-controller-manager.yaml)
+file33=/etc/kubernetes/ssl/kubecfg-kube-controller-manager.yaml
+if [ -f "$file33" ]; then
+  file3=$(stat -c %U:%G /etc/kubernetes/ssl/kubecfg-kube-controller-manager.yaml)
   if [ $file3 = root:root ]; then
     pass "$check_1_4_18"
   else
     warn "$check_1_4_18"
     warn "1.4.18 -     * Wrong ownership"
   fi
+else
+  warn "$check_1_4_18"
+  warn "1.4.18 - kubecfg-kube-controller-manager.yaml not found"
+fi
 
 check_1_4_19="1.4.19  - Ensure that the Kubernetes PKI directory and file ownership is set to root:root"
 pki=$(stat -c %U:%G /etc/kubernetes/ssl)

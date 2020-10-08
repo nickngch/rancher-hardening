@@ -84,7 +84,7 @@ else
 fi
 
 check_1_1_20="1.1.20  - Ensure that the Kubernetes PKI certificate file permissions are set to 644 or more restrictive"
-certs=(`ls -laR /etc/kubernetes/ssl/ |grep -v yaml | grep -v key | grep -v ^d | grep -v ^/ | grep -v ^t | grep pem | cut -d " " -f9`)
+certs=(`ls -laR /etc/kubernetes/ssl/ |grep -v yaml | grep -v key | grep -v ^d | grep -v ^/ | grep -v ^t | grep pem | cut -d " " -f10`)
 info "$check_1_1_20"
 for ((i=0; i<${#certs[@]}; i++)); do
   if [ "$(stat -c %a /etc/kubernetes/ssl/${certs[i]})" -eq 644 -o "$(stat -c %a /etc/kubernetes/ssl/${certs[i]})" -eq 640 -o "$(stat -c %a /etc/kubernetes/ssl/${certs[i]})" -eq 600 ]; then
@@ -97,7 +97,7 @@ for ((i=0; i<${#certs[@]}; i++)); do
 done
 
 check_1_1_21="1.1.21  - Ensure that the Kubernetes PKI key file permissions are set to 600"
-keys=(`ls -laR /etc/kubernetes/ssl/ |grep -v yaml |  grep -v ^d | grep -v ^/ | grep -v ^t | grep key | cut -d " " -f9`)
+keys=(`ls -laR /etc/kubernetes/ssl/ |grep -v yaml |  grep -v ^d | grep -v ^/ | grep -v ^t | grep key | cut -d " " -f10`)
 info "$check_1_1_21"
   for ((i=0; i<${#keys[@]}; i++)); do
     if [ "$(stat -c %a /etc/kubernetes/ssl/${keys[i]})" -eq 644 -o "$(stat -c %a /etc/kubernetes/ssl/${keys[i]})" -eq 640 -o "$(stat -c %a /etc/kubernetes/ssl/${keys[i]})" -eq 600 ]; then

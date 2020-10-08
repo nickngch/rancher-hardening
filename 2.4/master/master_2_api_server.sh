@@ -276,7 +276,7 @@ if [ -z "$epc" ]; then
     warn "      encryption is not configured"
 else
     config=$(docker inspect kube-apiserver | jq -e '.[0].Args[] | match("--encryption-provider-config=.*").string' | sed -e 's/^"//' -e 's/"$//' | cut -d = -f2)
-    provider=$(grep -A 1 providers: $provider | grep aescbc\|kms\|secretbox)
+    provider=$(grep -A 1 providers: $config | grep 'aescbc\|kms\|secretbox')
     if [ -z "$provider" ]; then
             warn "$check_1_2_34"
     else
